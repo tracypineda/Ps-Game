@@ -23,13 +23,13 @@
 
 <body>
     <div class="p-3 mb-2 bg-info text-white">
-    <h1>Psychic Game</h1>
-    <h2> Guess what letter I'm thinking of!</h2>
-    <h2> Wins: <span id="wins"></span></h2>
-    <h2> Losses: <span id="losses"></span></h2>
-    <h2> Guesses Left: <span id="guess"></span></h2>
-    <h2> Your guesses so far: <span id="user-guesses"></span></h2>
-    <h2> The computer guessed: <span id="compu-guesses"></span></h2>
+        <h1>Psychic Game</h1>
+        <h2> Guess what letter I'm thinking of!</h2>
+        <h2> Wins: <span id="wins"></span></h2>
+        <h2> Losses: <span id="losses"></span></h2>
+        <h2> Guesses Left: <span id="guess"></span></h2>
+        <h2> Your guesses so far: <span id="user-guesses"></span></h2>
+        <!-- <h2> The computer guessed: <span id="compu-guesses"></span></h2> -->
     </div>
     <script type="text/javascript">
 
@@ -39,37 +39,63 @@
         var textLosses = document.getElementById("losses");
         var guessesLeft = 9;
         var textGuessesLeft = document.getElementById("guess");
-        var userGuess = [];
+        var userGuessArray = [];
         var textUserGuesses = document.getElementById("user-guesses");
-        var compuGuess = [];
-        var textCompuGuesses = document.getElementById("compu-guesses");
+        var compuGuessArray = [];
+        // var textCompuGuesses = document.getElementById("compu-guesses");
         var compuOptions = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
+        var compuGuessKey = compuOptions[Math.floor(Math.random() * compuOptions.length)];
+        function updateWins() {
+            wins++;
+            // guessesLeft--;
+            updateUserInput();
+            // winReset();
+        }
+        function updateLosses() {
+            // guessesLeft--;
+            losses++;
+            updateUserInput();
+            console.log("Boooooo");
+        }
+        function reset() {
+            guessesLeft = 9;
+            userGuessArray = [];
+            compuGuessArray = [];
+            randomCompuGuess();
 
-        document.onkeyup = function (event) {
-            var userGuess = event.key;
-            var compuGuess = compuOptions[Math.floor(Math.random() * compuOptions.length)];
+        }
+
+        function randomCompuGuess() {
+        compuGuessKey = compuOptions[Math.floor(Math.random() * compuOptions.length)];
+        }
+        function updateUserInput() {
+
             textWins.textContent = wins;
             textLosses.textContent = losses;
             textGuessesLeft.textContent = guessesLeft;
-            textUserGuesses.textContent = userGuess;
-            textCompuGuesses.textContent = compuGuess;
+            // textCompuGuesses.textContent = compuGuessKey;
+            textUserGuesses.textContent = userGuessArray;
 
-            if ((userGuess === compuGuess) && (guessesLeft > 0)) {
-                wins++;
-                guessesLeft--;
-                console.log("YAY!");
+        }
+        document.onkeyup = function (event) {
+            var userGuessKey = event.key;
+            userGuessArray.push(userGuessKey);
+            compuGuessArray.push(compuGuessKey);
+
+
+            if ((userGuessKey.toLowerCase() === compuGuessKey) && (guessesLeft >= 0)) {
+                updateWins();
+                reset();
+
             }
-            else if ((userGuess !== compuGuess) && (guessesLeft > 0)) {
-                guessesLeft--;
-                losses++;
-                console.log("Boooooo");
+            else if (guessesLeft === 0) {
+                console.log(guessesLeft);
+                updateLosses();
+                reset();
             }
             else {
-                guessesLeft = 9;
-                userGuess.length = 0;
-                compuGuess.length = 0;
-                losses = 0;
-                wins = 0;
+                guessesLeft--;
+                updateUserInput();
             }
         }
 
