@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
         crossorigin="anonymous"></script>
@@ -24,7 +25,7 @@
 <body>
     <div class="p-3 mb-2 bg-info text-white">
         <h1>Psychic Game</h1>
-        <h2> Guess what letter I'm thinking of!</h2>
+        <h2 id="title-animation"> Guess what letter I'm thinking of!</h2>
         <h2> Wins: <span id="wins"></span></h2>
         <h2> Losses: <span id="losses"></span></h2>
         <h2> Guesses Left: <span id="guess"></span></h2>
@@ -32,6 +33,9 @@
         <!-- <h2> The computer guessed: <span id="compu-guesses"></span></h2> -->
     </div>
     <script type="text/javascript">
+    $(document).ready(function() {
+
+        $("#title-animation").animate({ left: '250px', right: '250px' });
 
         var wins = 0;
         var textWins = document.getElementById("wins");
@@ -66,7 +70,7 @@
         }
 
         function randomCompuGuess() {
-        compuGuessKey = compuOptions[Math.floor(Math.random() * compuOptions.length)];
+            compuGuessKey = compuOptions[Math.floor(Math.random() * compuOptions.length)];
         }
         function updateUserInput() {
 
@@ -98,6 +102,7 @@
                 updateUserInput();
             }
         }
+        });
 
     </script>
 </body>
